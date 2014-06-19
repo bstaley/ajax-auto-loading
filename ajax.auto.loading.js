@@ -48,8 +48,14 @@ var ajaxLoading = function (show, hide) {
         //call the original send function
         xhr.originalSend(body);
 
+        //hold on to anything coming in as onreadystatechange
+        xhr.originalonreadystatechange = xhr.onreadystatechange;
+        
         //monitor the state of the ajax call
         xhr.onreadystatechange = function (e) {
+            //if there was an original function in place for onreadystate change, then execute it.
+            if (this.originalonreadystatechange) { this.originalonreadystatechange.apply(this, [e]); }
+            
             //is request complete
             if (this.readyState === 4) {
 
