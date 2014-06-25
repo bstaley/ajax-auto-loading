@@ -16,7 +16,7 @@
 *   limitations under the License.
 *
 *Developed by: Brandon R Staley(bstaley0@gmail.com)
-*Purpose: Hooks into ajax requests to show/hide a waiting symbol. Pure JavaScript. Accepts a function for hiding and showing. 
+*Purpose: Hooks into ajax requests to execute a pre/post ajax functions. Pure JavaScript. Accepts a function for pre and post.
 *Dependencies: javascript
 *Tested on browsers: Chrome 28+, Firefox 22+, IE 9+, O 16+
 *Usage: In theory it should be able to be used on any browser.
@@ -24,11 +24,11 @@
 */
 
 /**
- *Hooks into ajax requests to show/hide a waiting symbol. Pure JavaScript. Accepts a function for hiding and showing.
- *@param   Function    show     a function that will be called when the loading process begins.
- *@param   Function    hide     a function that will be called when all loading processes are complete.
+ Hooks into ajax requests to execute a pre/post ajax functions. Pure JavaScript. Accepts a function for pre and post.
+ *@param   Function    pre      a function that will be called when the loading process begins.
+ *@param   Function    post     a function that will be called when all loading processes are complete.
  */
-var ajaxLoading = function (show, hide) {
+var ajaxAspect = function (pre, post) {
 
     //keep the scope
     var loading = this;
@@ -61,19 +61,20 @@ var ajaxLoading = function (show, hide) {
 
                 loading.count--;
 
-                //if the outstanding ajax requests are 0 then hide the symbol
+                //if the outstanding ajax requests are 0 then the post function needs to execute
                 if (loading.count === 0) {
-                    hide.apply();
+                    post.apply(this, [e]);
                 }
 
-                //no more reason to monitor this
+                //no more reason to monitor these
                 this.onreadystatechange = null;
+                this.originalonreadystatechange = null;
             }
         };
 
-        //if the count is 0 then you will need to show the symbol
+        //if the count is 0 then you will need to execute the pre function
         if (loading.count === 0) {
-            show.apply();
+            pre.apply(this,[xhr]);
         }
 
         //note that there is an outstanding request
