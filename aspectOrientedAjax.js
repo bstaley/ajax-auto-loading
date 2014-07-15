@@ -80,4 +80,4 @@ var ajaxAspect = function (pre, post) {
         //note that there is an outstanding request
         loading.count++;
     };
-}
+};
