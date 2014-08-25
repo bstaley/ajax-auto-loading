@@ -7,7 +7,7 @@ Demo fiddle: http://jsfiddle.net/bstaley/k4SBw/
 
 Should be used like so:
 
-    new ajaxAspect(function () {
+    new AjaxAspect(function () {
             document.getElementById('loading').style.display = 'block';
         }, function () {
             document.getElementById('loading').style.display = 'none'; 
