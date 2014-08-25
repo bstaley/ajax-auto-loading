@@ -28,7 +28,7 @@
  *@param   Function    pre      a function that will be called when the loading process begins.
  *@param   Function    post     a function that will be called when all loading processes are complete.
  */
-var ajaxAspect = function (pre, post) {
+var AjaxAspect = function (pre, post) {
 
     //keep the scope
     var loading = this;
